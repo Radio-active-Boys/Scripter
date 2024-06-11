@@ -1,0 +1,12 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\scripter]
+@="URL:Scripter Protocol"
+"URL Protocol"=""
+
+[HKEY_CLASSES_ROOT\scripter\shell]
+
+[HKEY_CLASSES_ROOT\scripter\shell\open]
+
+[HKEY_CLASSES_ROOT\scripter\shell\open\command]
+@="\"C:\\Users\\Asus\\Documents\\Scripter\\build\\Debug\\Scripter.exe\" \"%1\""
