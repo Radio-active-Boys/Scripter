@@ -3,6 +3,7 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <iostream>
+#include <string>
 
 // Link with Ws2_32.lib
 #pragma comment(lib, "Ws2_32.lib")
@@ -50,45 +51,58 @@ int main() {
 
     std::cout << "Server is listening on port 8080..." << std::endl;
 
-    // Accept a client socket
-    SOCKET ClientSocket = accept(ListenSocket, NULL, NULL);
-    if (ClientSocket == INVALID_SOCKET) {
-        std::cerr << "accept failed: " << WSAGetLastError() << std::endl;
-        closesocket(ListenSocket);
-        WSACleanup();
-        return 1;
-    }
-
-    std::cout << "Client connected!" << std::endl;
-
-    // Receive data
-    const int recvbuflen = 512;
-    char recvbuf[recvbuflen];
-
-    iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
-    if (iResult > 0) {
-        std::cout << "Bytes received: " << iResult << std::endl;
-
-        // Echo the buffer back to the sender
-        int iSendResult = send(ClientSocket, recvbuf, iResult, 0);
-        if (iSendResult == SOCKET_ERROR) {
-            std::cerr << "send failed: " << WSAGetLastError() << std::endl;
-            closesocket(ClientSocket);
+    while (true) {
+        // Accept a client socket
+        SOCKET ClientSocket = accept(ListenSocket, NULL, NULL);
+        if (ClientSocket == INVALID_SOCKET) {
+            std::cerr << "accept failed: " << WSAGetLastError() << std::endl;
+            closesocket(ListenSocket);
             WSACleanup();
             return 1;
         }
-        std::cout << "Bytes sent: " << iSendResult << std::endl;
-    } else if (iResult == 0) {
-        std::cout << "Connection closing..." << std::endl;
-    } else {
-        std::cerr << "recv failed: " << WSAGetLastError() << std::endl;
+
+        std::cout << "Client connected!" << std::endl;
+
+        // Receive data
+        const int recvbuflen = 1024;
+        char recvbuf[recvbuflen];
+        std::string message;
+
+        do {
+            iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+            if (iResult > 0) {
+                recvbuf[iResult] = '\0';  // Null-terminate the received data
+                message += recvbuf;
+                std::cout<<message<<std::endl;
+            } else if (iResult == 0) {
+                std::cout << "Connection closing..." << std::endl;
+            } else {
+                std::cerr << "recv failed: " << WSAGetLastError() << std::endl;
+            }
+        } while (iResult > 0);
+
+        // Find the body of the message by locating the CRLF CRLF sequence
+        size_t bodyPos = message.find("\r\n\r\n");
+        if (bodyPos != std::string::npos) {
+            // Print the body, skipping the CRLF CRLF sequence
+            std::string body = message.substr(bodyPos + 4);
+            std::cout << "Body received: " << body << std::endl;
+
+            // Echo the body back to the client
+            std::string response = "HTTP/1.1 200 OK\r\n"
+                                   "Content-Type: text/plain\r\n"
+                                   "Content-Length: " + std::to_string(body.size()) + "\r\n"
+                                   "\r\n" + body;
+            send(ClientSocket, response.c_str(), response.size(), 0);
+        } else {
+            std::cout << "No headers found, received: " << message << std::endl;
+        }
+
+        // Cleanup client socket
         closesocket(ClientSocket);
-        WSACleanup();
-        return 1;
     }
 
-    // Cleanup
-    closesocket(ClientSocket);
+    // Cleanup listening socket
     closesocket(ListenSocket);
     WSACleanup();
 
