@@ -31,4 +31,4 @@ add_compile_definitions(_WEBSOCKETPP_CPP11_THREAD)
 add_compile_definitions(_WEBSOCKETPP_CPP11_TYPE_TRAITS_)
 
 add_executable(${project} ${SOURCES})
-set_target_properties(${project} PROPERTIES CXX_STANDARD 17)
+set_target_properties(${project} PROPERTIES CXX_STANDARD 20)

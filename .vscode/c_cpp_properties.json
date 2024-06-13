@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/vendors/asio/asio/include",
-                "${workspaceFolder}/vendors/websocketpp"
+                "${workspaceFolder}/vendors/websocketpp",
+                "${workspaceFolder}/include"
             ],
             "defines": [
                 "_DEBUG",
