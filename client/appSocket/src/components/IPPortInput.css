@@ -1,0 +1,42 @@
+.ip-port-input-container {
+    display: flex;
+    width: 50vw;
+    flex-direction: row;
+    margin: 10px auto; /* Centering the container horizontally */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    justify-content: space-between;
+    align-items: center; /* Center items vertically */
+  }
+  
+  .ip-port-input-container label {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    align-items: center; /* Center items vertically */
+  }
+  
+  .ip-port-input-container label span {
+    font-style: italic; /* Make text italic */
+    font-family: 'Times New Roman', Times, serif; /* Use Times New Roman font */
+  }
+  
+  .ip-port-input-container input {
+    margin-top: 5px;
+    padding: 8px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+  }
+  
+  .ip-port-input-container input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }

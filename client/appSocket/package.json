@@ -1,0 +1,36 @@
+{
+  "name": "appsocket",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "browserify": "^17.0.0",
+    "net": "^1.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "socket.io-client": "^4.7.5",
+    "websocket": "^1.0.35",
+    "@monaco-editor/react": "^4.6.0",
+    "monaco-languageclient": "^8.4.0",
+    "react-router-dom": "^6.23.1",
+    "route": "^0.2.5",
+    "router": "^1.3.8",
+    "vscode-ws-jsonrpc": "^3.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "vite": "^5.2.0"
+  }
+}
