@@ -3,10 +3,14 @@ cmake_minimum_required(VERSION 3.10)
 set(project Scripter)
 project(${project})
 
-
+add_subdirectory(
+    vendors/websocketpp
+)
 
 include_directories(
                     ${CMAKE_SOURCE_DIR}/include
+                    ${CMAKE_SOURCE_DIR}/vendors/websocketpp
+                    ${CMAKE_SOURCE_DIR}/vendors/asio/asio/include
 )
 
 file(GLOB_RECURSE SOURCES
@@ -21,6 +25,10 @@ endif()
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
     add_compile_definitions(DEBUG)
 endif()
+
+add_compile_definitions(ASIO_STANDALONE)
+add_compile_definitions(_WEBSOCKETPP_CPP11_THREAD)
+add_compile_definitions(_WEBSOCKETPP_CPP11_TYPE_TRAITS_)
 
 add_executable(${project} ${SOURCES})
 set_target_properties(${project} PROPERTIES CXX_STANDARD 17)

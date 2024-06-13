@@ -1,96 +1,57 @@
-#define WIN32_LEAN_AND_MEAN
-
-#include <winsock2.h>
-#include <ws2tcpip.h>
+#include <windows.h>
 #include <iostream>
-
-// Link with Ws2_32.lib
-#pragma comment(lib, "Ws2_32.lib")
+#include <string>
 
 int main() {
-    WSADATA wsaData;
-    int iResult;
+    // Path to the executable
+    LPCSTR programPath = "C:\\Users\\Asus\\Documents\\Scripter\\bin\\arduino-cli.exe";
 
-    // Initialize Winsock
-    iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
-    if (iResult != 0) {
-        std::cerr << "WSAStartup failed: " << iResult << std::endl;
-        return 1;
-    }
+    // Command line arguments
+    std::string arguments = "board list";
 
-    // Create a socket
-    SOCKET ListenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (ListenSocket == INVALID_SOCKET) {
-        std::cerr << "Error at socket(): " << WSAGetLastError() << std::endl;
-        WSACleanup();
-        return 1;
-    }
+    // Full command line (program path + arguments)
+    std::string commandLine = std::string(programPath) + " " + arguments;
 
-    // Setup the TCP listening socket
-    sockaddr_in serverAddr;
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_addr.s_addr = INADDR_ANY;
-    serverAddr.sin_port = htons(8080);
+    // Initialize the STARTUPINFO structure
+    STARTUPINFOA si;
+    ZeroMemory(&si, sizeof(si));
+    si.cb = sizeof(si);
 
-    iResult = bind(ListenSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
-    if (iResult == SOCKET_ERROR) {
-        std::cerr << "bind failed: " << WSAGetLastError() << std::endl;
-        closesocket(ListenSocket);
-        WSACleanup();
-        return 1;
-    }
+    // Initialize the PROCESS_INFORMATION structure
+    PROCESS_INFORMATION pi;
+    ZeroMemory(&pi, sizeof(pi));
 
-    iResult = listen(ListenSocket, SOMAXCONN);
-    if (iResult == SOCKET_ERROR) {
-        std::cerr << "listen failed: " << WSAGetLastError() << std::endl;
-        closesocket(ListenSocket);
-        WSACleanup();
-        return 1;
-    }
+    // Create the process
+    BOOL success = CreateProcessA(
+        programPath,       // Path to the executable
+        commandLine.data(),// Command line arguments
+        NULL,              // Process handle not inheritable
+        NULL,              // Thread handle not inheritable
+        FALSE,             // Set handle inheritance to FALSE
+        0,                 // No creation flags
+        NULL,              // Use parent's environment block
+        NULL,              // Use parent's starting directory 
+        &si,               // Pointer to STARTUPINFO structure
+        &pi                // Pointer to PROCESS_INFORMATION structure
+    );
 
-    std::cout << "Server is listening on port 8080..." << std::endl;
+    // Check if the process was created successfully
+    if (success) {
+        // Wait until the process exits
+        WaitForSingleObject(pi.hProcess, INFINITE);
 
-    // Accept a client socket
-    SOCKET ClientSocket = accept(ListenSocket, NULL, NULL);
-    if (ClientSocket == INVALID_SOCKET) {
-        std::cerr << "accept failed: " << WSAGetLastError() << std::endl;
-        closesocket(ListenSocket);
-        WSACleanup();
-        return 1;
-    }
+        // Get the exit code
+        DWORD exitCode;
+        GetExitCodeProcess(pi.hProcess, &exitCode);
 
-    std::cout << "Client connected!" << std::endl;
+        std::cout << "Program executed successfully with exit code: " << exitCode << std::endl;
 
-    // Receive data
-    const int recvbuflen = 512;
-    char recvbuf[recvbuflen];
-
-    iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
-    if (iResult > 0) {
-        std::cout << "Bytes received: " << iResult << std::endl;
-
-        // Echo the buffer back to the sender
-        int iSendResult = send(ClientSocket, recvbuf, iResult, 0);
-        if (iSendResult == SOCKET_ERROR) {
-            std::cerr << "send failed: " << WSAGetLastError() << std::endl;
-            closesocket(ClientSocket);
-            WSACleanup();
-            return 1;
-        }
-        std::cout << "Bytes sent: " << iSendResult << std::endl;
-    } else if (iResult == 0) {
-        std::cout << "Connection closing..." << std::endl;
+        // Close process and thread handles
+        CloseHandle(pi.hProcess);
+        CloseHandle(pi.hThread);
     } else {
-        std::cerr << "recv failed: " << WSAGetLastError() << std::endl;
-        closesocket(ClientSocket);
-        WSACleanup();
-        return 1;
+        std::cerr << "Failed to execute program. Error code: " << GetLastError() << std::endl;
     }
-
-    // Cleanup
-    closesocket(ClientSocket);
-    closesocket(ListenSocket);
-    WSACleanup();
 
     return 0;
 }
