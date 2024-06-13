@@ -1,110 +1,124 @@
-#define WIN32_LEAN_AND_MEAN
+#ifndef _WEBSOCKETPP_CPP11_THREAD
+#define _WEBSOCKETPP_CPP11_THREAD
+#endif
+#ifndef _WEBSOCKETPP_CPP11_TYPE_TRAITS_
+#define _WEBSOCKETPP_CPP11_TYPE_TRAITS_
+#endif
+#ifndef ASIO_STANDALONE
+#define ASIO_STANDALONE
+#endif
 
-#include <winsock2.h>
-#include <ws2tcpip.h>
+#include <websocketpp/server.hpp>
+#include <websocketpp/config/asio_no_tls.hpp>
 #include <iostream>
-#include <string>
+#include <set>
+#include <thread> // For std::this_thread
+#include <chrono> // For std::chrono
+#include <mutex>  // For std::mutex
 
-// Link with Ws2_32.lib
-#pragma comment(lib, "Ws2_32.lib")
+typedef websocketpp::server<websocketpp::config::asio> server;
+
+// Define the WebSocket server
+server echo_server;
+
+// Mutex for thread-safe access to the connection list
+std::mutex connection_list_mutex;
+
+// List of connection handles
+std::set<websocketpp::connection_hdl, std::owner_less<websocketpp::connection_hdl>> connections;
+
+// Function to handle incoming WebSocket messages
+void on_message(websocketpp::connection_hdl hdl, server::message_ptr msg) {
+    std::string message = msg->get_payload(); // Get the message payload
+
+    // Print the received message to the console
+    std::cout << "Received message: " << message << std::endl;
+
+    try {
+        // Echo the received message back to the client
+        echo_server.send(hdl, message, msg->get_opcode());
+    } catch (const websocketpp::lib::error_code& ec) {
+        std::cout << "Echo failed because: " << ec.message() << std::endl;
+    }
+}
+
+// Function to handle new connections
+void on_open(websocketpp::connection_hdl hdl) {
+    std::lock_guard<std::mutex> guard(connection_list_mutex);
+    connections.insert(hdl);
+}
+
+// Function to handle closed connections
+void on_close(websocketpp::connection_hdl hdl) {
+    std::lock_guard<std::mutex> guard(connection_list_mutex);
+    connections.erase(hdl);
+}
+
+// Function to send a message to all connected clients
+void send_message_to_all_clients(const std::string& message) {
+    std::lock_guard<std::mutex> guard(connection_list_mutex);
+    for (auto it : connections) {
+        try {
+            echo_server.send(it, message, websocketpp::frame::opcode::text);
+        } catch (const websocketpp::lib::error_code& ec) {
+            std::cout << "Failed to send message: " << ec.message() << std::endl;
+        }
+    }
+}
+
+// Function to simulate sending messages periodically
+void periodic_message_sender() {
+    while (true) {
+        // Example: Send "Hello from server!" every 5 seconds
+        send_message_to_all_clients("Hello from server!");
+
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+    }
+}
 
 int main() {
-    WSADATA wsaData;
-    int iResult;
+    try {
+        // Set logging settings
+        echo_server.set_access_channels(websocketpp::log::alevel::all);
+        echo_server.clear_access_channels(websocketpp::log::alevel::frame_payload);
 
-    // Initialize Winsock
-    iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
-    if (iResult != 0) {
-        std::cerr << "WSAStartup failed: " << iResult << std::endl;
-        return 1;
-    }
+        // Initialize ASIO
+        echo_server.init_asio();
 
-    // Create a socket
-    SOCKET ListenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (ListenSocket == INVALID_SOCKET) {
-        std::cerr << "Error at socket(): " << WSAGetLastError() << std::endl;
-        WSACleanup();
-        return 1;
-    }
+        // Register our message handler
+        echo_server.set_message_handler(&on_message);
+        
+        // Register open and close handlers
+        echo_server.set_open_handler(&on_open);
+        echo_server.set_close_handler(&on_close);
 
-    // Setup the TCP listening socket
-    sockaddr_in serverAddr;
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_addr.s_addr = INADDR_ANY;
-    serverAddr.sin_port = htons(8080);
+        // Listen on port 9002
+        echo_server.listen(9002);
 
-    iResult = bind(ListenSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
-    if (iResult == SOCKET_ERROR) {
-        std::cerr << "bind failed: " << WSAGetLastError() << std::endl;
-        closesocket(ListenSocket);
-        WSACleanup();
-        return 1;
-    }
+        // Start the server accept loop
+        echo_server.start_accept();
 
-    iResult = listen(ListenSocket, SOMAXCONN);
-    if (iResult == SOCKET_ERROR) {
-        std::cerr << "listen failed: " << WSAGetLastError() << std::endl;
-        closesocket(ListenSocket);
-        WSACleanup();
-        return 1;
-    }
-
-    std::cout << "Server is listening on port 8080..." << std::endl;
-
-    while (true) {
-        // Accept a client socket
-        SOCKET ClientSocket = accept(ListenSocket, NULL, NULL);
-        if (ClientSocket == INVALID_SOCKET) {
-            std::cerr << "accept failed: " << WSAGetLastError() << std::endl;
-            closesocket(ListenSocket);
-            WSACleanup();
-            return 1;
-        }
-
-        std::cout << "Client connected!" << std::endl;
-
-        // Receive data
-        const int recvbuflen = 1024;
-        char recvbuf[recvbuflen];
-        std::string message;
-
-        do {
-            iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
-            if (iResult > 0) {
-                recvbuf[iResult] = '\0';  // Null-terminate the received data
-                message += recvbuf;
-                std::cout<<message<<std::endl;
-            } else if (iResult == 0) {
-                std::cout << "Connection closing..." << std::endl;
-            } else {
-                std::cerr << "recv failed: " << WSAGetLastError() << std::endl;
+        // Start the ASIO io_service run loop in a separate thread
+        std::thread server_thread([]() {
+            try {
+                echo_server.run();
+            } catch (const std::exception& e) {
+                std::cerr << "Exception in server thread: " << e.what() << std::endl;
             }
-        } while (iResult > 0);
+        });
 
-        // Find the body of the message by locating the CRLF CRLF sequence
-        size_t bodyPos = message.find("\r\n\r\n");
-        if (bodyPos != std::string::npos) {
-            // Print the body, skipping the CRLF CRLF sequence
-            std::string body = message.substr(bodyPos + 4);
-            std::cout << "Body received: " << body << std::endl;
+        // Start a thread for periodic message sending
 
-            // Echo the body back to the client
-            std::string response = "HTTP/1.1 200 OK\r\n"
-                                   "Content-Type: text/plain\r\n"
-                                   "Content-Length: " + std::to_string(body.size()) + "\r\n"
-                                   "\r\n" + body;
-            send(ClientSocket, response.c_str(), response.size(), 0);
-        } else {
-            std::cout << "No headers found, received: " << message << std::endl;
-        }
+        // Join threads to wait for them to finish (not necessary in all setups)
+        server_thread.join();
 
-        // Cleanup client socket
-        closesocket(ClientSocket);
+    } catch (const websocketpp::exception& e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Some exception: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Unknown exception" << std::endl;
     }
-
-    // Cleanup listening socket
-    closesocket(ListenSocket);
-    WSACleanup();
 
     return 0;
 }
