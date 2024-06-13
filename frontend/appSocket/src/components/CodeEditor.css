@@ -1,0 +1,69 @@
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px auto;
+}
+
+.main-container{
+  display: flex;
+  flex-direction: row;
+
+}
+.editor-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: darkblue;
+  overflow: hidden; 
+  border-right: .15em solid orange; 
+  white-space: nowrap; 
+  animation: typing 5s steps(5, end ) infinite, blink-caret .5s step-end infinite  ; 
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 7%;
+  }
+}
+
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: orange;
+  }
+}
+
+
+.monaco-editor {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  width: 100%; 
+  align-items: center;
+  justify-content: center;
+
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.input-field{
+  display: flex;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin: 5px;
+  height: 30px;
+  width: auto;
+}
+
+
