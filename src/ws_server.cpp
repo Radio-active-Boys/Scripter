@@ -7,6 +7,9 @@ void Server::on_message(websocketpp::connection_hdl hdl, ws_server::message_ptr 
     // Print the received message to the console
     std::cout << "Received message: " << message << std::endl;
 
+
+    Request::handle_request(message,hdl,&m_connection_list_mutex, &m_server);
+
     try {
         // Echo the received message back to the client
         m_server.send(hdl, message, msg->get_opcode());
