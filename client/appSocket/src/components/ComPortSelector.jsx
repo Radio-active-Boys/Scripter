@@ -17,6 +17,7 @@ const ComPortSelector = () => {
       }).filter(port => port); // Remove any empty strings
 
       setComPorts(ports);
+      console.log(ports);
     };
 
     setMessageHandler(() => handleMessage);
