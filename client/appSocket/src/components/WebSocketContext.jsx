@@ -4,7 +4,7 @@ export const WebSocketContext = createContext(null);
 
 export const WebSocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
-  const [ip, setIp] = useState('ws://192.168.175.182');
+  const [ip, setIp] = useState('ws://localhost');
   const [port, setPort] = useState('9002');
 
   const connectWebSocket = useCallback(() => {

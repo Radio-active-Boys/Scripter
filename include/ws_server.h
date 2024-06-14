@@ -1,7 +1,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 #include "common.h"
-
+#include "request.h"
 class Server
 {
 public:
