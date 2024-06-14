@@ -10,7 +10,7 @@ const ComPortSelector = () => {
 
   useEffect(() => {
     const handleMessage = (data) => {
-      const message = JSON.parse(data);
+      const message = data;
       if (message.type === 'COM_PORTS_LIST') {
         setComPorts(message.data);
       }
@@ -28,7 +28,6 @@ const ComPortSelector = () => {
 
   const handleComPortSelect = (comPort) => {
     setSelectedComPort(comPort);
-    // Later send this to the server
   };
 
   return (
