@@ -2,7 +2,7 @@
 
 void Exec::exec_cmd( char cmd[],websocketpp::connection_hdl hdl,std::mutex *connection_list_mutex,  ws_server* server)
 {
-    std::lock_guard<std::mutex> guard(*connection_list_mutex);
+    // std::lock_guard<std::mutex> guard(*connection_list_mutex);
     HANDLE hOutputRead, hOutputWrite;
     SECURITY_ATTRIBUTES sa = {sizeof(SECURITY_ATTRIBUTES), NULL, TRUE};
 
