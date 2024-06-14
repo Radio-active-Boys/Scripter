@@ -1,7 +1,7 @@
 Upload -> Compile/Upload Arduino
-Port -> get/set
 COM -> get/set
+    get-port
 boards -> get/set
-    get-boards
+    get-board
 baud rate -> set        frontend-list
 Serial Monitor          toggle
