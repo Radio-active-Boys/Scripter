@@ -6,18 +6,22 @@ const ComPortSelector = () => {
   const { socket, setMessageHandler } = useContext(WebSocketContext);
   const [comPorts, setComPorts] = useState([]);
   const [selectedComPort, setSelectedComPort] = useState('');
+  const [dropdownClicked, setDropdownClicked] = useState(false);
 
   useEffect(() => {
     const handleMessage = (data) => {
       // Manually parse the response to extract COM ports
-      const message = data.split('\n').slice(1); // Skip the header line
-      const ports = message.map(line => {
+      if (data.slice(0,4) === "Port")
+      {        
+        const lines = data.split('\n').slice(1); // Skip the header line
+        const ports = lines.map(line => {
         const parts = line.trim().split(/\s+/); // Split by whitespace
         return parts[0]; // Extract the COM port name
-      }).filter(port => port); // Remove any empty strings
+        }).filter(port => port); // Remove any empty strings
 
-      setComPorts(ports);
-      console.log(ports);
+        setComPorts(ports);
+        console.log(ports);
+      }
     };
 
     setMessageHandler(() => handleMessage);
@@ -35,19 +39,26 @@ const ComPortSelector = () => {
     setSelectedComPort(event.target.value);
   };
 
+  const handleDropdownClick = () => {
+    setDropdownClicked(true);
+  };
+
   return (
     <div className="com-port-selector">
-      <button onClick={fetchComPorts}>Select COM Port</button>
-      {comPorts.length > 0 && (
-        <select value={selectedComPort} onChange={handleComPortSelect}>
-          <option value="" disabled>Select COM Port</option>
-          {comPorts.map((comPort, index) => (
-            <option key={index} value={comPort}>
-              {comPort}
-            </option>
-          ))}
-        </select>
-      )}
+      <select
+        value={selectedComPort}
+        onChange={handleComPortSelect}
+        onClick={handleDropdownClick}
+      >
+        <option value="" disabled>
+          {dropdownClicked ? 'Loading COM Ports...' : 'Select COM Port'}
+        </option>
+        {comPorts.map((comPort, index) => (
+          <option key={index} value={comPort}>
+            {comPort}
+          </option>
+        ))}
+      </select>
       {selectedComPort && <p>Selected COM Port: {selectedComPort}</p>}
     </div>
   );
