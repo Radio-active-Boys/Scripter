@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { WebSocketContext } from './WebSocketContext';
 import './IPPortInput.css';
-
+import ComPortSelector from './ComPortSelector';
 const IPPortInput = () => {
   const { ip, setIp, port, setPort } = useContext(WebSocketContext);
 
@@ -25,6 +25,7 @@ const IPPortInput = () => {
           placeholder="Port"
         />
       </label>
+      <ComPortSelector />
     </div>
   );
 };

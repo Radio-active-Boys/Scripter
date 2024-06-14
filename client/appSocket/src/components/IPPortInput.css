@@ -1,6 +1,6 @@
 .ip-port-input-container {
     display: flex;
-    width: 50vw;
+    width: 60vw;
     flex-direction: row;
     margin: 10px auto; /* Centering the container horizontally */
     padding: 10px;
@@ -16,9 +16,10 @@
     flex-direction: row;
     margin-bottom: 10px;
     font-size: 14px;
+    justify-items: auto;
     font-weight: bold;
     color: #333;
-    align-items: center; /* Center items vertically */
+
   }
   
   .ip-port-input-container label span {
