@@ -1,4 +1,3 @@
-// ComPortSelector.jsx
 import React, { useState, useContext, useEffect } from 'react';
 import { WebSocketContext } from './WebSocketContext';
 import './ComPortSelector.css';
@@ -10,11 +9,16 @@ const ComPortSelector = () => {
 
   useEffect(() => {
     const handleMessage = (data) => {
-      const message = JSON.parse(data);
-      if (message.type === 'COM_PORTS_LIST') {
-        setComPorts(message.data);
-      }
+      // Manually parse the response to extract COM ports
+      const message = data.split('\n').slice(1); // Skip the header line
+      const ports = message.map(line => {
+        const parts = line.trim().split(/\s+/); // Split by whitespace
+        return parts[0]; // Extract the COM port name
+      }).filter(port => port); // Remove any empty strings
+
+      setComPorts(ports);
     };
+
     setMessageHandler(() => handleMessage);
   }, [setMessageHandler]);
 
@@ -28,7 +32,6 @@ const ComPortSelector = () => {
 
   const handleComPortSelect = (comPort) => {
     setSelectedComPort(comPort);
-    // Later send this to the server
   };
 
   return (
