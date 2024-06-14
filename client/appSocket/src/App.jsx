@@ -2,7 +2,8 @@ import React from 'react';
 import { WebSocketProvider } from './components/WebSocketContext';
 import IPPortInput from './components/IPPortInput';
 import CodeEditor from './components/CodeEditor';
-import './App.css'
+
+import './App.css';
 
 const App = () => {
   return (
@@ -16,4 +17,3 @@ const App = () => {
 };
 
 export default App;
-

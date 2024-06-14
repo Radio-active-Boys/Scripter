@@ -6,10 +6,11 @@ export const WebSocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [ip, setIp] = useState('ws://localhost');
   const [port, setPort] = useState('9002');
+  const [messageHandler, setMessageHandler] = useState(null);
 
   const connectWebSocket = useCallback(() => {
     const newSocket = new WebSocket(`${ip}:${port}`);
-    
+
     newSocket.onopen = () => {
       console.log('WebSocket connection established');
       setSocket(newSocket);
@@ -17,17 +18,21 @@ export const WebSocketProvider = ({ children }) => {
 
     newSocket.onmessage = (event) => {
       console.log('Message from server:', event.data);
+      if (messageHandler) {
+        messageHandler(event.data);
+      }
     };
 
     newSocket.onerror = (error) => {
       console.error('WebSocket error', error);
     };
 
-    newSocket.onclose = () => {
-      console.log('WebSocket connection closed');
-      setTimeout(connectWebSocket, 5000); // Try to reconnect after 5 seconds
+    newSocket.onclose = (event) => {
+      console.log('WebSocket connection closed', event);
+      // Try to reconnect after 5 seconds
+      setTimeout(connectWebSocket, 5000);
     };
-  }, [ip, port]);
+  }, [ip, port, messageHandler]);
 
   useEffect(() => {
     connectWebSocket();
@@ -39,7 +44,7 @@ export const WebSocketProvider = ({ children }) => {
   }, [connectWebSocket]);
 
   return (
-    <WebSocketContext.Provider value={{ socket, ip, setIp, port, setPort }}>
+    <WebSocketContext.Provider value={{ socket, ip, setIp, port, setPort, setMessageHandler }}>
       {children}
     </WebSocketContext.Provider>
   );
