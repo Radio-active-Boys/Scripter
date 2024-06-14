@@ -1,4 +1,4 @@
-.ip-port-input-container {
+.Upper-input-container {
     display: flex;
     width: 60vw;
     flex-direction: row;
@@ -11,7 +11,7 @@
     align-items: center; /* Center items vertically */
   }
   
-  .ip-port-input-container label {
+  .Upper-input-container label {
     display: flex;
     flex-direction: row;
     margin-bottom: 10px;
@@ -22,12 +22,12 @@
 
   }
   
-  .ip-port-input-container label span {
+  .Upper-input-container label span {
     font-style: italic; /* Make text italic */
     font-family: 'Times New Roman', Times, serif; /* Use Times New Roman font */
   }
   
-  .ip-port-input-container input {
+  .Upper-input-container input {
     margin-top: 5px;
     padding: 8px;
     width: 250px;
@@ -37,7 +37,7 @@
     outline: none;
   }
   
-  .ip-port-input-container input:focus {
+  .Upper-input-container input:focus {
     border-color: #007bff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }

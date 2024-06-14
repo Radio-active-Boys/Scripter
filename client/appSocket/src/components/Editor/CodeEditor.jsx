@@ -2,7 +2,7 @@ import React, { useState, useRef, useContext } from 'react';
 import Editor from '@monaco-editor/react';
 import './CodeEditor.css';
 import { ImportButton, UploadButton } from './Button';
-import { WebSocketContext } from './WebSocketContext';
+import { WebSocketContext } from '../HandleWebSocket/WebSocketContext';
 
 const getLanguageFromExtension = (filename) => {
   const extension = filename.split('.').pop();

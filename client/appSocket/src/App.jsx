@@ -1,7 +1,7 @@
 import React from 'react';
-import { WebSocketProvider } from './components/WebSocketContext';
-import IPPortInput from './components/IPPortInput';
-import CodeEditor from './components/CodeEditor';
+import { WebSocketProvider } from './components/HandleWebSocket/WebSocketContext';
+import UpperInput from './components/UpperInput';
+import CodeEditor from './components/Editor/CodeEditor';
 
 import './App.css';
 
@@ -9,7 +9,7 @@ const App = () => {
   return (
     <WebSocketProvider>
       <div className="App">
-        <IPPortInput />
+        <UpperInput />
         <CodeEditor />
       </div>
     </WebSocketProvider>
