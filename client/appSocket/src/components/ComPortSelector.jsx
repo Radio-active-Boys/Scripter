@@ -31,21 +31,22 @@ const ComPortSelector = () => {
     }
   };
 
-  const handleComPortSelect = (comPort) => {
-    setSelectedComPort(comPort);
+  const handleComPortSelect = (event) => {
+    setSelectedComPort(event.target.value);
   };
 
   return (
     <div className="com-port-selector">
       <button onClick={fetchComPorts}>Select COM Port</button>
       {comPorts.length > 0 && (
-        <ul className="com-port-list">
+        <select value={selectedComPort} onChange={handleComPortSelect}>
+          <option value="" disabled>Select COM Port</option>
           {comPorts.map((comPort, index) => (
-            <li key={index} onClick={() => handleComPortSelect(comPort)}>
+            <option key={index} value={comPort}>
               {comPort}
-            </li>
+            </option>
           ))}
-        </ul>
+        </select>
       )}
       {selectedComPort && <p>Selected COM Port: {selectedComPort}</p>}
     </div>
