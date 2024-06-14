@@ -20,7 +20,7 @@ const ComPortSelector = () => {
 
   const fetchComPorts = () => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify({ type: 'REQUEST_COM_PORTS' }));
+      socket.send('get-port');
     } else {
       console.error('WebSocket is not open. Unable to send message.');
     }
