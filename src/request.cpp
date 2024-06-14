@@ -7,4 +7,9 @@ void Request::handle_request(std::string cmd, websocketpp::connection_hdl hdl, s
         char command[] = "./arduino-cli board list";
         Exec::exec_cmd(command,hdl,connection_list_mutex, server);
     }
+    else if(cmd=="get-port")
+    {
+        char command[] = "./arduino-cli board list";
+        Exec::exec_cmd(command,hdl,connection_list_mutex, server);
+    }
 }
