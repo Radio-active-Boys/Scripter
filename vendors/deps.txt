@@ -1,0 +1,2 @@
+Rapid-JSON:  https://github.com/ragnar-vallhala/rapidjson.git
+Websocketpp: https://github.com/ragnar-vallhala/websocketpp.git
