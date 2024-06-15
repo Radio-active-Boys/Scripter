@@ -19,6 +19,7 @@
 #include <mutex>  // For std::mutex
 #include <windows.h>
 #include <string>
+#include <fstream>
 #include "rapidjson/document.h"
 typedef websocketpp::server<websocketpp::config::asio> ws_server;
 #endif
