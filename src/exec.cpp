@@ -24,7 +24,7 @@ void Exec::exec_cmd( char cmd[],websocketpp::connection_hdl hdl,std::mutex *conn
     }
 
     CloseHandle(hOutputWrite); // Close the write end of the pipe in the parent
-    char buffer[1024*4];
+    char buffer[1024*64];
     DWORD bytesRead;
     while (ReadFile(hOutputRead, buffer, sizeof(buffer) - 1, &bytesRead, NULL) && bytesRead > 0) {
         buffer[bytesRead] = '\0';
