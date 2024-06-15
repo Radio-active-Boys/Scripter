@@ -1,9 +1,9 @@
 import React, { useState, useRef, useContext } from 'react';
 import Editor from '@monaco-editor/react';
 import './CodeEditor.css';
-import { ImportButton, UploadButton } from './Button';
+import { ImportButton, UploadButton, ComplileButton } from './Button';
 import { WebSocketContext } from '../HandleWebSocket/WebSocketContext';
-
+import { ConfigureContext } from '../Context/ConfigureContext';
 const getLanguageFromExtension = (filename) => {
   const extension = filename.split('.').pop();
   switch (extension) {
@@ -34,6 +34,7 @@ const CodeEditor = () => {
   const [filePath, setFilePath] = useState('code.ino');
   const editorRef = useRef(null);
   const { socket } = useContext(WebSocketContext);
+  const { getPort, getBoard, getBaud, getFQBN} = useContext(ConfigureContext);
 
   const handleEditorChange = (value, event) => {
     setFileContent(value);
@@ -55,10 +56,34 @@ const CodeEditor = () => {
     reader.readAsText(file);
   };
 
+  const sendUpload = {
+    Type: "Upload",
+    Port: getPort,
+    Board: getFQBN,
+    Baud: getBaud,
+    Code: fileContent
+  };
+  const sendCompile = {
+    Type : "Compile",
+    Port: getPort,
+    Board: getFQBN,
+    Baud: getBaud,
+    Code: fileContent
+  };
+
   const handleUpload = () => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(fileContent);
-      console.log('File content sent');
+      socket.send(JSON.stringify(sendUpload));
+      console.log('Data sent:', sendUpload);
+    } else {
+      console.error('WebSocket is not open. Unable to send message.');
+    }
+  };
+
+  const handleCompile = () => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify(sendCompile));
+      console.log('Data sent:', sendCompile);
     } else {
       console.error('WebSocket is not open. Unable to send message.');
     }
@@ -100,6 +125,7 @@ const CodeEditor = () => {
         </div>
         <ImportButton onFileSelect={handleFileUpload}></ImportButton>
         <UploadButton onClick={handleUpload}></UploadButton>
+        <ComplileButton onClick={handleCompile}></ComplileButton>
       </div>
     </div>
   );

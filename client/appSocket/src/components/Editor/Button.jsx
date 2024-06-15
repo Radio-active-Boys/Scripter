@@ -36,9 +36,9 @@ export const UploadButton = ({ onClick, children }) => {
   );
 };
 
-export const RunButton = ({ onClick, children }) => {
+export const ComplileButton = ({ onClick, children }) => {
   return (
-    <button className='my-button run-button' onClick={onClick}>
+    <button className='my-button complie-button' onClick={onClick}>
       <span className='button-icon' />
       {children}
     </button>
