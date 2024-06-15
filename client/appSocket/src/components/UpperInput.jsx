@@ -15,9 +15,9 @@ const UpperInput = () => {
     <div className='Upper-input-container'>
       <button onClick={togglePopup}>Configure</button>
       {showPopup && <PopupWindow onClose={togglePopup} />}
-      <div>Baud Rate: {getBaud} baud</div>
-      <div>Port: {getPort}</div>
       <div>Board: {getBoard}</div>
+      <div>Port: {getPort}</div>
+      <div>Baud Rate: {getBaud} baud</div>
     </div>
   );
 };
