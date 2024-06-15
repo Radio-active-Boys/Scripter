@@ -5,7 +5,7 @@ void Server::on_message(websocketpp::connection_hdl hdl, ws_server::message_ptr 
     std::string message = msg->get_payload(); // Get the message payload
 
     // Print the received message to the console
-    std::cout << "Received message: " << message << std::endl;
+    std::cout << "Received message: "<< message << std::endl;
 
 
     Request::handle_request(message,hdl,&m_connection_list_mutex, &m_server);
