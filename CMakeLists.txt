@@ -16,7 +16,7 @@ include_directories(
 )
 
 file(GLOB_RECURSE SOURCES
-    ${CMAKE_SOURCE_DIR}/test/test.cpp
+    ${CMAKE_SOURCE_DIR}/test/main.cpp
     ${CMAKE_SOURCE_DIR}/src/*.cpp
 )
 
