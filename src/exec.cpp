@@ -1,6 +1,6 @@
 #include "exec.h"
 
-void Exec::exec_cmd( char cmd[],websocketpp::connection_hdl hdl,std::mutex *connection_list_mutex,  ws_server* server)
+void Exec::exec_cmd( char cmd[],websocketpp::connection_hdl hdl,std::mutex *connection_list_mutex,  ws_server* server,std::string prefix)
 {
     std::lock_guard<std::mutex> guard(*connection_list_mutex);
     HANDLE hOutputRead, hOutputWrite;
@@ -25,8 +25,14 @@ void Exec::exec_cmd( char cmd[],websocketpp::connection_hdl hdl,std::mutex *conn
 
     CloseHandle(hOutputWrite); // Close the write end of the pipe in the parent
     char buffer[1024*64];
+    if(prefix.size() == 3)
+    {
+        buffer[0] = prefix[0];
+        buffer[1] = prefix[1];
+        buffer[2] = prefix[2];
+    }
     DWORD bytesRead;
-    while (ReadFile(hOutputRead, buffer, sizeof(buffer) - 1, &bytesRead, NULL) && bytesRead > 0) {
+    while (ReadFile(hOutputRead, buffer+3*(prefix.size() == 3), sizeof(buffer) - 1, &bytesRead, NULL) && bytesRead > 0) {
         buffer[bytesRead] = '\0';
         
         std::cout << buffer;

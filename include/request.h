@@ -2,6 +2,7 @@
 #define REQUEST_H
 #include "common.h"
 #include "exec.h"
+#include "file_handler.h"
 class Request
 {
 

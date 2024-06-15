@@ -66,7 +66,7 @@ const CodeEditor = () => {
   const sendCompile = {
     Type : "Compile",
     Port: getPort,
-    Board: getBoard,
+    Board: getFQBN,
     Baud: getBaud,
     Code: fileContent
   };
