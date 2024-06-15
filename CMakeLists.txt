@@ -4,17 +4,19 @@ set(project Scripter)
 project(${project})
 
 add_subdirectory(
-    vendors/websocketpp
+    ${CMAKE_SOURCE_DIR}/vendors/websocketpp
+    ${CMAKE_SOURCE_DIR}/vendors/rapidjson
 )
 
 include_directories(
                     ${CMAKE_SOURCE_DIR}/include
                     ${CMAKE_SOURCE_DIR}/vendors/websocketpp
                     ${CMAKE_SOURCE_DIR}/vendors/asio/asio/include
+                    ${CMAKE_SOURCE_DIR}/vendors/rapidjson/include
 )
 
 file(GLOB_RECURSE SOURCES
-    ${CMAKE_SOURCE_DIR}/test/main.cpp
+    ${CMAKE_SOURCE_DIR}/test/test.cpp
     ${CMAKE_SOURCE_DIR}/src/*.cpp
 )
 

@@ -29,9 +29,9 @@ const getLanguageFromExtension = (filename) => {
 };
 
 const CodeEditor = () => {
-  const [fileContent, setFileContent] = useState('# Start typing your code here...');
-  const [language, setLanguage] = useState('python');
-  const [filePath, setFilePath] = useState('code.py');
+  const [fileContent, setFileContent] = useState('void setup()\n{\n\n}\n\n\nvoid loop()\n{\n\n}');
+  const [language, setLanguage] = useState('cpp');
+  const [filePath, setFilePath] = useState('code.ino');
   const editorRef = useRef(null);
   const { socket } = useContext(WebSocketContext);
 

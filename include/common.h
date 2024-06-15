@@ -18,5 +18,6 @@
 #include <chrono> // For std::chrono
 #include <mutex>  // For std::mutex
 #include <windows.h>
+#include <string>
 typedef websocketpp::server<websocketpp::config::asio> ws_server;
 #endif
