@@ -1,16 +1,17 @@
 // WebSocketProvider.jsx
+
 import React, { createContext, useEffect, useState, useCallback } from 'react';
 
 export const WebSocketContext = createContext(null);
 
 export const WebSocketProvider = ({ children }) => {
-  const [socket, setSocket] = useState(null);
+  const [socket, setSocket] = useState("");
   const [ip, setIp] = useState('ws://localhost');
   const [port, setPort] = useState('9002');
-  const [messageHandler, setMessageHandler] = useState(null);
-  const [comPort, setComPort] = useState(null); // State for received COM port data
-  const [board, setBoard] = useState(null); // State for received board data
-
+  const [messageHandler, setMessageHandler] = useState("");
+  const [comPort, setComPort] = useState(""); // State for received COM port data
+  const [board, setBoard] = useState({}); // State for received board data
+  
   const connectWebSocket = useCallback(() => {
     const newSocket = new WebSocket(`${ip}:${port}`);
 
@@ -30,22 +31,35 @@ export const WebSocketProvider = ({ children }) => {
         const ports = lines
           .map((line) => {
             const parts = line.trim().split(/\s+/);
-            return parts[0];
+            if(parts[4] === "(USB)")
+            {
+              return parts[0];
+            }
           })
           .filter((port) => port);
         setComPort(ports);
       }
 
-      if (event.data && event.data.slice && event.data.slice(0, 2) === 'ID') {
-        const lines = event.data.split('\n').slice(1);
-        const boards = lines
-          .map((line) => {
-            const parts = line.trim().split(/\s+/);
-            return parts[0];
-          })
-          .filter((board) => board);
-        setBoard(boards);
+      if (event.data && event.data.startsWith('Board Name')) {
+        let lines = event.data.split('\n');
+        let boards = {}
+        for(let i = 1; i<lines.length;i++)
+        {
+          let lineData = lines[i].split(' ');
+          let BoardName = ""
+          let FQBN = lineData[lineData.length - 1]
+          for (let j = 0 ; j < lineData.length - 1; j ++)
+          {
+            BoardName += lineData[j]+" "
+          } 
+          if(BoardName != "" && FQBN != "" )
+          {
+            boards[BoardName] = FQBN  
+          }
+        }
+        setBoard(boards)
       }
+
     };
 
     newSocket.onerror = (error) => {
@@ -73,7 +87,6 @@ export const WebSocketProvider = ({ children }) => {
     setMessageHandler(() => handler);
   }, []);
 
-  // Provide socket, IP, port, message handler, comPort, and board through context
   return (
     <WebSocketContext.Provider
       value={{

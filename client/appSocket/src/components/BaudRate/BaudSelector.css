@@ -1,16 +1,15 @@
 .baud-selector {
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 20px;
+  padding: 10px;
+  width: 20vw;
   background-color: #f9f9f9;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
-
+  margin: 10px;
 }
 
-.baud-selector h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
+.baud-selector h5 {
+  font-size: 14px;
   color: #333;
 }
 
@@ -19,6 +18,8 @@
   padding: 0;
   max-height: 100px;
   overflow-y: auto; 
+  margin-top: 0%;
+  margin-bottom: 0%;
 }
 
 .baud-selector li {
@@ -27,3 +28,7 @@
   color: #666;
 }
 
+
+.baud-selector li:hover {
+  background-color: #DDD;
+}
