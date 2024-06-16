@@ -16,8 +16,8 @@
 .com-port-selector ul {
   list-style-type: none;
   padding: 0;
-  max-height: 100px; /* Adjust max height as needed */
-  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 100px;  
+  overflow-y: auto;  
   margin-bottom: 0%;
 }
 .com-port-selector li {

@@ -1,0 +1,31 @@
+/* src/components/Terminal/Terminal.css */
+.terminal-wrapper {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+  }
+  
+  .terminal-container {
+    width: 100%;
+    overflow-y: auto;
+    padding: 0.2%;
+    border: 1px solid #ddd5d5;
+    box-sizing: border-box;
+  }
+  
+  .resizer {
+    height: 10px;
+    background: transparent;
+    cursor: ns-resize;
+  }
+  
+  .controller-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 8px;
+  }

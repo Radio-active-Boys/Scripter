@@ -19,8 +19,7 @@ const BoardSelector = () => {
 
   useEffect(() => {
     fetchBoards();
-  }, [socket]); // Trigger fetchBoards() again when socket changes
-
+  }, [socket]); 
   const handleBoardSelect = (boardName) => {
     setSelectedBoard(boardName);
     setBoard(boardName);

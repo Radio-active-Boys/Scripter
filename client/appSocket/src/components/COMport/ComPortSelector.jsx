@@ -5,7 +5,7 @@ import './ComPortSelector.css';
 
 const ComPortSelector = () => {
   const { socket, comPort } = useContext(WebSocketContext);
-  const { setPort } = useContext(ConfigureContext); // Correct usage
+  const { setPort } = useContext(ConfigureContext);  
   const [selectedPort, setSelectedPort] = useState(null);
 
   const fetchComPorts = () => {

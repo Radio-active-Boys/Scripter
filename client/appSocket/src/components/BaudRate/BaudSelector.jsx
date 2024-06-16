@@ -3,7 +3,7 @@ import { ConfigureContext } from '../Context/ConfigureContext';
 import './BaudSelector.css';
 
 const BaudSelector = () => {
-  const { getBaud, setBaud } = useContext(ConfigureContext); // Correct usage
+  const { getBaud, setBaud } = useContext(ConfigureContext);
 
   const baudList = [
     300, 600, 750, 1200, 2400, 4800, 9600, 19200, 31250, 38400,
