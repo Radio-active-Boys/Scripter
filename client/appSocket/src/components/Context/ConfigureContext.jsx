@@ -4,8 +4,8 @@ export const ConfigureContext = createContext();
 
 export const ConfigureProvider = ({ children }) => {
   const [getBaud, setBaud] = useState('9600');
-  const [getPort, setPort] = useState("");
-  const [getBoard, setBoard] = useState("");
+  const [getPort, setPort] = useState("Port");
+  const [getBoard, setBoard] = useState("Board");
   const [getFQBN, setFQBN] = useState("");
 
   return (

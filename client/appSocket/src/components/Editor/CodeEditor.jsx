@@ -4,6 +4,10 @@ import './CodeEditor.css';
 import { ImportButton, UploadButton, ComplileButton } from './Button';
 import { WebSocketContext } from '../HandleWebSocket/WebSocketContext';
 import { ConfigureContext } from '../Context/ConfigureContext';
+import { WebSocketProvider } from '../HandleWebSocket/WebSocketContext';
+import { ConfigureProvider } from '../Context/ConfigureContext';
+
+import UpperInput from '../UpperInput';
 const getLanguageFromExtension = (filename) => {
   const extension = filename.split('.').pop();
   switch (extension) {
@@ -74,7 +78,7 @@ const CodeEditor = () => {
   const handleUpload = () => {
     if (socket && socket.readyState === WebSocket.OPEN) {
       socket.send(JSON.stringify(sendUpload));
-      console.log('Data sent:', sendUpload);
+
     } else {
       console.error('WebSocket is not open. Unable to send message.');
     }
@@ -94,7 +98,26 @@ const CodeEditor = () => {
   };
 
   return (
-    <div className='flex width=100vw height=100vh'>
+    <div className='flex'>
+      <div className='top-handler'>
+        <div>
+          <div className='button-container'>
+            <ImportButton onFileSelect={handleFileUpload}></ImportButton>
+            <UploadButton onClick={handleUpload}></UploadButton>
+            <ComplileButton onClick={handleCompile}></ComplileButton>
+          </div>
+        </div>
+        <div>
+            <WebSocketProvider>
+              <div>
+                <ConfigureProvider>
+                  <UpperInput />
+                </ConfigureProvider>
+              </div>
+            </WebSocketProvider>
+        </div>
+      </div>
+
       <div className="editor-container">
         <Editor
           className="monaco-editor"
@@ -111,22 +134,11 @@ const CodeEditor = () => {
             readOnly: false,
             cursorStyle: 'line',
             automaticLayout: true,
+
           }}
         />
       </div>
-      <div className='button-container'>
-        <div className='input-field'>
-          <input
-            type="text"
-            className="file-path-input"
-            value={filePath}
-            onChange={handleFilePathChange}
-          />
-        </div>
-        <ImportButton onFileSelect={handleFileUpload}></ImportButton>
-        <UploadButton onClick={handleUpload}></UploadButton>
-        <ComplileButton onClick={handleCompile}></ComplileButton>
-      </div>
+
     </div>
   );
 };

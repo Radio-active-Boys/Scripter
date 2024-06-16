@@ -1,7 +1,7 @@
 import React from 'react';
-import { WebSocketProvider } from './components/HandleWebSocket/WebSocketContext';
-import UpperInput from './components/UpperInput';
+
 import CodeEditor from './components/Editor/CodeEditor';
+import { WebSocketProvider } from './components/HandleWebSocket/WebSocketContext';
 import { ConfigureProvider } from './components/Context/ConfigureContext';
 import './App.css';
 
@@ -10,7 +10,6 @@ const App = () => {
     <WebSocketProvider>
       <div className="App">
       <ConfigureProvider>
-        <UpperInput />
         <CodeEditor />
       </ConfigureProvider>
         

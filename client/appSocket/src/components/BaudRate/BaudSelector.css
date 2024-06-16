@@ -16,14 +16,14 @@
 .baud-selector ul {
   list-style-type: none;
   padding: 0;
-  max-height: 100px;
-  overflow-y: auto; 
-  margin-top: 0%;
+  max-height: 100px; /* Adjust max height as needed */
+  overflow-y: auto; /* Enable vertical scrolling */
   margin-bottom: 0%;
 }
-
 .baud-selector li {
-  margin-bottom: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
   font-size: 16px;
   color: #666;
 }

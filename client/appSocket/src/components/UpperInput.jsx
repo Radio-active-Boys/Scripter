@@ -13,11 +13,19 @@ const UpperInput = () => {
 
   return (
     <div className='Upper-input-container'>
-      <button onClick={togglePopup}>Configure</button>
+      <button className="upper-button config-button" onClick={togglePopup} data-hover="Open Configuration">
+        Configure
+      </button>
       {showPopup && <PopupWindow onClose={togglePopup} />}
-      <div>Board: {getBoard}</div>
-      <div>Port: {getPort}</div>
-      <div>Baud Rate: {getBaud} baud</div>
+      <button className="upper-button board-button" data-hover="Board Info">
+        {getBoard}
+      </button>
+      <button className="upper-button port-button" data-hover="Port Info">
+        {getPort}
+      </button>
+      <button className="upper-button baud-button" data-hover="Baud Rate">
+        {getBaud} baud
+      </button>
     </div>
   );
 };
