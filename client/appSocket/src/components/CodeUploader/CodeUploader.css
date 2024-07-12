@@ -1,7 +1,6 @@
 /* App.css (or wherever your main application CSS is located) */
 
 .Uploader {
-    padding: 20px;
     background: #000000d4; /* Black with 83% opacity */
     height: 100vh; /* Full viewport height */
     width: 100vw; /* Full viewport width */

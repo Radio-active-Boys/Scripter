@@ -16,7 +16,7 @@
 .com-port-selector ul {
   list-style-type: none;
   padding: 0;
-  max-height: 100px;  
+  max-height: 250px;  
   overflow-y: auto;  
   margin-bottom: 0%;
 }

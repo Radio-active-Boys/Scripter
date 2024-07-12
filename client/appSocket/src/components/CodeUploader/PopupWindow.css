@@ -26,21 +26,24 @@
     border-radius: 100%;
     background: none;
     cursor: pointer;
-    font-size: 10px;
+    font-size: 20px;
     color: rgb(153, 153, 153);
 }
    .close-btn:hover {
     background-color: rgba(230, 68, 39, 0.462);
+    font-size: large;
     
    }
 
    .content {
     left: 10%;
+    align-self: start;
    }
 
    .Port-Board
    {
     display: flex;
     justify-content: center;    
+    height: 300px;
    }
   
