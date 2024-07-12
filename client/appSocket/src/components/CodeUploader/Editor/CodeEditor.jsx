@@ -16,6 +16,7 @@ const getLanguageFromExtension = (filename) => {
     case "cxx":
     case "h":
     case "hpp":
+    case "ino":
       return "cpp";
     case "cs":
       return "csharp";
@@ -32,10 +33,16 @@ const getLanguageFromExtension = (filename) => {
 
 const CodeEditor = () => {
   const [fileContent, setFileContent] = useState(
-    "void setup()\n{\n\n}\n\n\nvoid loop()\n{\n\n}"
+    `void setup() {
+  // put your setup code here, to run once:
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+}`
   );
   const [language, setLanguage] = useState("cpp");
-  const [filePath, setFilePath] = useState("code.ino");
+  const [filePath, setFilePath] = useState("sketch.ino");
   const editorRef = useRef(null);
   const { socket } = useContext(WebSocketContext);
   const { getPort, getBoard, getBaud, getFQBN } = useContext(ConfigureContext);

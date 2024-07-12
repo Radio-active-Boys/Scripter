@@ -24,17 +24,17 @@
 }
 
 .import-button .button-icon {
-  background: url('../../assets/import.svg') no-repeat center center;
+  background: url('../../../assets/import.svg') no-repeat center center;
   background-size: contain;
 }
 
 .upload-button .button-icon {
-  background: url('../../assets/upload.svg') no-repeat center center;
+  background: url('../../../assets/upload.svg') no-repeat center center;
   background-size: contain;
 }
 
 .complie-button .button-icon {
-  background: url('../../assets/run.svg') no-repeat center center;
+  background: url('../../../assets/run.svg') no-repeat center center;
   background-size: contain;
 }
 

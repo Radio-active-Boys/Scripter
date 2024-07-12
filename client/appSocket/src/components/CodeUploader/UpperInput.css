@@ -82,7 +82,7 @@
 
 .config-button {
   background-color: #201f1f;
-  background-image: url('../assets/config.svg'); /* Path to your config icon */
+  background-image: url('../../assets/config.svg'); /* Path to your config icon */
 }
 
 .config-button:hover {
@@ -91,7 +91,7 @@
 
 .board-button {
   background-color: #007bff;
-  background-image: url('../assets/board.svg'); /* Path to your board icon */
+  background-image: url('../../assets/board.svg'); /* Path to your board icon */
 }
 
 .board-button:hover {
@@ -100,7 +100,7 @@
 
 .port-button {
   background-color: #28a745;
-  background-image: url('../assets/port.svg'); /* Path to your port icon */
+  background-image: url('../../assets/port.svg'); /* Path to your port icon */
 }
 
 .port-button:hover {
@@ -109,7 +109,7 @@
 
 .baud-button {
   background-color: #ffc107;
-  background-image: url('../assets/baud.svg'); /* Path to your baud icon */
+  background-image: url('../../assets/baud.svg'); /* Path to your baud icon */
 }
 
 .baud-button:hover {
