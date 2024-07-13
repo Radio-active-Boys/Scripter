@@ -1,42 +1,46 @@
-
-.workspace {
-  background-color: #e02d2d;
+.workspace2 {
+  background-color: #f9f9f9;
   height: 95vh;
   width: 73vw;
   position: relative;
   right: 0;
   left: 17%;
   border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  overflow: hidden; /* Prevent scrolling */
+  overflow: hidden;
+  cursor: grab;
 }
+
 h2 {
-  text-align: center; /* Use CSS for centering */
+  text-align: center;
 }
 
-
-.workspace-container {
-  position: relative;
-  padding: 0; /* No padding to avoid extra space */
-  background-color: #170a0a;
-  overflow: hidden; /* Prevent scrolling within the workspace */
-  height: auto;
-  width: auto;
+.workspace-container2 {
+  flex: 1; /* Take up all available space */
+  display: flex;
+  justify-content: center; /* Center the canvas horizontally */
+  align-items: center; /* Center the canvas vertically */
+  overflow: hidden; /* Prevents overflow when zooming */
+  background-color: coral;
 }
 
-/* Placed Component */
-.placed-component {
-  position: absolute;
-  border: 1px solid #000;
-  background-color: #284fd1;
-  border-radius: 5px;
-  cursor: move;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+.canvas {
+  background-color: aqua;
+  transition: transform 0.1s; /* Smooth zooming effect */
+  width: 300%; /* Make canvas responsive */
+  height: 300%; /* Make canvas responsive */
 }
 
-/* Connection Line */
-.connection-line {
-  position: absolute;
-  pointer-events: none;
+.component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #ccc;
+  transition: background-color 0.2s;
+  border: 1px solid #000; /* Default border */
 }
 
+.component.selected {
+  background-color: brown; /* Background color for selected component */
+  border: #000;
+}
