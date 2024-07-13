@@ -32,8 +32,8 @@ void Exec::exec_cmd( char cmd[],websocketpp::connection_hdl hdl,std::mutex *conn
         buffer[2] = prefix[2];
     }
     DWORD bytesRead;
-    while (ReadFile(hOutputRead, buffer+3*(prefix.size() == 3), sizeof(buffer) - 1, &bytesRead, NULL) && bytesRead > 0) {
-        buffer[bytesRead] = '\0';
+    while (ReadFile(hOutputRead, buffer+3*(prefix.size() == 3), sizeof(buffer) - 1 - 3*(prefix.size() == 3), &bytesRead, NULL) && bytesRead > 0) {
+        buffer[bytesRead + 3*(prefix.size() == 3)] = '\0';
         
         std::cout << buffer;
         
