@@ -1,0 +1,48 @@
+.workspace {
+  background-color: #f9f9f9;
+  height: 95vh;
+  width: 73vw;
+  position: relative;
+  right: 0;
+  left: 17%;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  cursor: grab;
+}
+
+h2 {
+  text-align: center;
+}
+
+.workspace-container {
+  flex: 1; /* Take up all available space */
+  display: flex;
+  justify-content: center; /* Center the canvas horizontally */
+  align-items: center; /* Center the canvas vertically */
+  overflow: hidden; /* Prevents overflow when zooming */
+}
+
+.canvas {
+  background-color: aqua;
+  transition: transform 0.1s; /* Smooth zooming effect */
+  width: 100%; /* Make canvas responsive */
+  height: 100%; /* Make canvas responsive */
+}
+
+.component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #ccc;
+  transition: background-color 0.2s;
+  border: 1px solid #000; /* Default border */
+}
+
+.component.selected {
+  background-color: brown;
+  /*Backgroundcolorforselectedcomponent*/
+  border: #000;
+
+
+}

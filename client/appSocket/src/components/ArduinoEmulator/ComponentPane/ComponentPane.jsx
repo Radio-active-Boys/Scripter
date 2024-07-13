@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import '@wokwi/elements'; // Ensure elements are imported
-
+import './ComponentPane.css'
 const ComponentPane = () => {
   const [components, setComponents] = useState([]);
 
   useEffect(() => {
-    // List of components available in @wokwi/elements
     const availableComponents = [
       { name: '7 Segment', type: 'wokwi-7segment' },
       { name: 'Arduino Mega', type: 'wokwi-arduino-mega' },
@@ -16,13 +15,8 @@ const ComponentPane = () => {
       { name: 'LCD1602', type: 'wokwi-lcd1602' },
       { name: 'Membrane Keypad', type: 'wokwi-membrane-keypad' },
       { name: 'Neopixel', type: 'wokwi-neopixel' },
-      { name: 'NeoPixel Matrix 8x8', type: 'wokwi-neopixel-matrix-8x8' },
-      { name: 'NeoPixel Matrix 16x16', type: 'wokwi-neopixel-matrix-16x16' },
       { name: 'Resistor', type: 'wokwi-resistor' },
       { name: 'Servo (Default)', type: 'wokwi-servo' },
-      { name: 'Servo (Animated: sweep)', type: 'wokwi-servo-sweep' },
-      { name: 'Servo (Horn: double)', type: 'wokwi-servo-horn-double' },
-      { name: 'Servo (Horn: cross)', type: 'wokwi-servo-horn-cross' },
       { name: 'SSD1306', type: 'wokwi-ssd1306' },
       { name: 'Analog Joystick', type: 'wokwi-analog-joystick' },
       { name: 'Biaxial Stepper', type: 'wokwi-biaxial-stepper' },
@@ -39,7 +33,6 @@ const ComponentPane = () => {
       { name: 'IR Receiver', type: 'wokwi-ir-receiver' },
       { name: 'IR Remote', type: 'wokwi-ir-remote' },
       { name: 'KS2E-M-DC5', type: 'wokwi-ks2e-m-dc5' },
-      { name: 'KY040', type: 'wokwi-ky040' },
       { name: 'LCD2004', type: 'wokwi-lcd2004' },
       { name: 'Led Bar Graph', type: 'wokwi-led-bar-graph' },
       { name: 'LED', type: 'wokwi-led' },
@@ -51,7 +44,6 @@ const ComponentPane = () => {
       { name: 'Photoresistor Sensor', type: 'wokwi-photoresistor-sensor' },
       { name: 'PIR Motion Sensor', type: 'wokwi-pir-motion-sensor' },
       { name: 'Potentiometer', type: 'wokwi-potentiometer' },
-      { name: 'Pushbutton 6mm', type: 'wokwi-pushbutton-6mm' },
       { name: 'Pushbutton', type: 'wokwi-pushbutton' },
       { name: 'RGB Led', type: 'wokwi-rgb-led' },
       { name: 'Rotary Dialer', type: 'wokwi-rotary-dialer' },

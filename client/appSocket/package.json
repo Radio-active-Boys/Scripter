@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@liveblocks/client": "^2.2.2",
+    "@liveblocks/react": "^2.2.2",
     "@monaco-editor/react": "^4.6.0",
     "@wokwi/elements": "^1.5.1",
     "arduino-cli": "^0.37.0",
