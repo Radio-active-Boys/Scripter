@@ -1,0 +1,117 @@
+.Upper-input-container {
+  display: flex;
+  width: 50vw;
+  flex-direction: row;
+  margin: 5px auto; /* Centering the container horizontally */
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  justify-content: space-between;
+  align-items: center; /* Center items vertically */
+}
+
+.Upper-input-container label {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  font-size: 14px;
+  justify-items: auto;
+  font-weight: bold;
+  color: #333;
+}
+
+.Upper-input-container label span {
+  font-style: italic; /* Make text italic */
+  font-family: 'Times New Roman', Times, serif; /* Use Times New Roman font */
+}
+
+.Upper-input-container input {
+  margin-top: 5px;
+  padding: 8px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+}
+
+.Upper-input-container input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.upper-button {
+  position: relative; /* Necessary for absolute positioning of the tooltip */
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em 0.6em 2.5em; /* Adjust padding for icon space */
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s, background-color 0.25s;
+  color: #f9f9f9;
+  background-repeat: no-repeat;
+  background-position: 0.5em center; /* Position icon */
+  background-size: 1.5em; /* Size of icon */
+}
+
+.upper-button::after {
+  content: attr(data-hover); /* Use the data-hover attribute for the tooltip text */
+  position: absolute;
+  background-color: #fff;
+  color: #000;
+  padding: 5px;
+  border-radius: 5px;
+  top: -40px; /* Position the tooltip above the button */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+.upper-button:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.config-button {
+  background-color: #201f1f;
+  background-image: url('../../assets/config.svg'); /* Path to your config icon */
+}
+
+.config-button:hover {
+  border-color: #646cff;
+}
+
+.board-button {
+  background-color: #007bff;
+  background-image: url('../../assets/board.svg'); /* Path to your board icon */
+}
+
+.board-button:hover {
+  border-color: #0056b3;
+}
+
+.port-button {
+  background-color: #28a745;
+  background-image: url('../../assets/port.svg'); /* Path to your port icon */
+}
+
+.port-button:hover {
+  border-color: #1c7c31;
+}
+
+.baud-button {
+  background-color: #ffc107;
+  background-image: url('../../assets/baud.svg'); /* Path to your baud icon */
+}
+
+.baud-button:hover {
+  border-color: #d39e00;
+}

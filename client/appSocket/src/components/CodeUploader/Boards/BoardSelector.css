@@ -1,0 +1,61 @@
+/* BoardSelector.css */
+
+.board-selector {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 20vw;
+  padding: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+}
+
+.board-selector h5 {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 0%;
+}
+
+.board-selector input[type="text"] {
+  width: 80%;
+  margin-left: 8%;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease-in-out;
+  background-color: #333;
+  color: #f9f9f9;
+  
+}
+
+.board-selector input[type="text"]:focus {
+  outline: none;
+  border-color: #007bff; /* Example focus color, adjust as needed */
+  
+}
+
+.board-selector ul {
+  list-style-type: none;
+  padding: 0;
+  max-height: 200px; /* Adjust max height as needed */
+  overflow-y: auto; /* Enable vertical scrolling */
+  margin-bottom: 0%;
+}
+
+.board-selector li {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  font-size: 16px;
+  color: #666;
+}
+
+.board-selector li:hover {
+  background-color: #DDD; /* Example hover background color, adjust as needed */
+}
+
+.board-selector li mark {
+  background-color: rgb(172, 170, 170); /* Example highlight color, adjust as needed */
+  font-weight: bold;
+}

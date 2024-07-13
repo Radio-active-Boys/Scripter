@@ -1,20 +1,19 @@
 import React from 'react';
-import CodeEditor from './components/Editor/CodeEditor';
-import Terminal from './components/Terminal/Terminal';
-import { WebSocketProvider } from './components/HandleWebSocket/WebSocketContext';
-import { ConfigureProvider } from './components/Context/ConfigureContext';
-import './App.css';
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import CodeUploader from './components/CodeUploader/CodeUploader';
+import ArduinoEmulator from './components/ArduinoEmulator/ArduinoEmulator';
+import MainPage from './components/MainPage/Main';
 const App = () => {
   return (
-    <div className="App">
-      <WebSocketProvider>
-        <ConfigureProvider>
-          <CodeEditor />
-          <Terminal />
-        </ConfigureProvider>
-      </WebSocketProvider>
-    </div>
+    <Router>
+      <div >
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/code-uploader" element={<CodeUploader />} />
+          <Route path="/arduino" element={<ArduinoEmulator />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

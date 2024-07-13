@@ -1,0 +1,49 @@
+.my-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+
+.my-button:hover {
+  background-color: #0056b3;
+}
+
+.my-button .button-icon {
+  margin: 5px;
+  width: 30px;
+  height: 30px;
+}
+
+.import-button .button-icon {
+  background: url('../../../assets/import.svg') no-repeat center center;
+  background-size: contain;
+}
+
+.upload-button .button-icon {
+  background: url('../../../assets/upload.svg') no-repeat center center;
+  background-size: contain;
+}
+
+.complie-button .button-icon {
+  background: url('../../../assets/run.svg') no-repeat center center;
+  background-size: contain;
+}
+
+.stop-button .button-icon {
+  background: url('../../assets/stop.svg') no-repeat center center;
+  background-size: contain;
+}
+
+.debug-button .button-icon {
+  background: url('../../assets/debug.svg') no-repeat center center;
+  background-size: contain;
+}
