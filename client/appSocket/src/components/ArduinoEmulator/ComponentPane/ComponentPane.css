@@ -1,0 +1,20 @@
+.component-pane {
+    background-color: #fafafa;
+    height: 95vh;
+    width: 25vw;
+    overflow-y: auto; /* Allow vertical scrolling for components */
+    position: fixed; /* Fixes the pane to the left */
+    left: 0; /* Aligns it to the left */
+    top: 2vh; /* Optional: Adjusts top margin for better alignment */
+    z-index: 10; /* Ensures it stays above other content */
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+    align-items: center; /* Center items horizontally */
+}
+
+.draggable-component {
+    padding: 5px;
+    cursor: move;
+    width: 100%; /* Adjust width as needed */
+    text-align: center; /* Center text inside the component */
+}
