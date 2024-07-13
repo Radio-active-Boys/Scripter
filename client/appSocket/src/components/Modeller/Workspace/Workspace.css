@@ -1,0 +1,11 @@
+.workspace
+{
+ width:100vw;   
+ height:100vh;   
+ background-color: aquamarine;
+}
+
+#canvas {
+    width: 95vw; /* set canvas width */
+    height: 95vh; /* set canvas height */
+  }

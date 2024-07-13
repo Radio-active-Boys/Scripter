@@ -21,7 +21,7 @@ const MainPage = () => {
         <div className="box-name">Arduino Simulator</div>
         <div className="popup">Go to Arduino Simulator</div>
       </div>
-      <div className="box" onClick={() => handleClick('/arduino')}>
+      <div className="box" onClick={() => handleClick('/modeller')}>
         <div className="box-img img3"></div>
         <div className="box-name">Design 3D</div>
         <div className="popup">Go to 3D design</div>
