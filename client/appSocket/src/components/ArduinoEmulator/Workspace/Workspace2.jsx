@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import './Workspace2.css';
 
@@ -7,15 +7,13 @@ const Workspace2 = () => {
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [canvasSize, setCanvasSize] = useState({ width: 800, height: 600 });
-  const [scale, setScale] = useState(1); // State to keep track of the current scale
+  const [scale, setScale] = useState(1);
+  const SelectedComponentRef = useRef(null);
 
-  // Key down event for deleting components
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'Delete' && selectedComponent) {
-        setComponents(prev => prev.filter(comp => comp.id !== selectedComponent.id));
-        setSelectedComponent(null);
+        deleteSelectedComponent();
       }
     };
 
@@ -23,33 +21,33 @@ const Workspace2 = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedComponent]);
 
-  // Handle dropping components into the workspace
   const handleDrop = (event) => {
     event.preventDefault();
     const component = JSON.parse(event.dataTransfer.getData('component'));
+    const containerRect = event.currentTarget.getBoundingClientRect();
+
+    // Calculate the new component position based on the cursor's position in the container
     const newComponent = {
       ...component,
       id: `comp_${components.length}_${Date.now()}`,
-      x: event.clientX / scale,
-      y: event.clientY / scale,
+      x: (event.clientX - containerRect.left - 65) / scale,
+      y: (event.clientY - containerRect.top - 65) / scale,
     };
-    setComponents([...components, newComponent]);
+
+    setComponents((prev) => [...prev, newComponent]);
   };
 
-  // Prevent default behavior for drag over
   const handleDragOver = (event) => {
     event.preventDefault();
   };
 
-  // Mouse down event for selecting or panning
   const handleMouseDown = (event) => {
     if (event.button === 0) {
-      const target = event.target;
+      const target = event.target.closest('.placed-component');
 
-      // Check if the click is on a placed component
-      if (target.classList.contains('placed-component')) {
+      if (target) {
         const id = target.dataset.id;
-        const comp = components.find(comp => comp.id === id);
+        const comp = components.find((comp) => comp.id === id);
         setSelectedComponent(comp);
         setIsDragging(true);
         const rect = target.getBoundingClientRect();
@@ -57,52 +55,39 @@ const Workspace2 = () => {
           x: event.clientX - rect.left,
           y: event.clientY - rect.top,
         });
-        event.stopPropagation(); // Prevent background drag
+        event.stopPropagation();
       } else {
-        // Deselect the component if clicking on empty space
         setSelectedComponent(null);
       }
     }
   };
 
-  // Mouse move event for dragging components
   const handleMouseMove = (event) => {
     if (isDragging && selectedComponent) {
       const containerRect = event.currentTarget.getBoundingClientRect();
       const newX = (event.clientX - containerRect.left - dragOffset.x) / scale;
       const newY = (event.clientY - containerRect.top - dragOffset.y) / scale;
 
-      setComponents(prev => 
-        prev.map(comp =>
+      setComponents((prev) =>
+        prev.map((comp) =>
           comp.id === selectedComponent.id ? { ...comp, x: newX, y: newY } : comp
         )
       );
 
-      event.stopPropagation(); // Prevent background drag
+      event.stopPropagation();
     }
   };
 
-  // Mouse up event to stop dragging
   const handleMouseUp = (event) => {
     if (isDragging) {
       setIsDragging(false);
-      event.stopPropagation(); // Prevent background drag
+      event.stopPropagation();
     }
   };
 
-  // Function to add a new component
-  const addComponent = () => {
-    const newComponent = {
-      id: `comp_${components.length}_${Date.now()}`,
-      x: Math.random() * (canvasSize.width - 50),
-      y: Math.random() * (canvasSize.height - 50),
-    };
-    setComponents([...components, newComponent]);
-  };
-
-  const deleteComponent = () => {
+  const deleteSelectedComponent = () => {
     if (selectedComponent) {
-      setComponents(prev => prev.filter(c => c.id !== selectedComponent.id));
+      setComponents((prev) => prev.filter((c) => c.id !== selectedComponent.id));
       setSelectedComponent(null);
     }
   };
@@ -110,42 +95,38 @@ const Workspace2 = () => {
   return (
     <div className="workspace2">
       <h2>Workspace</h2>
-      <button onClick={addComponent}>Add Component</button>
-      <button onClick={deleteComponent} disabled={!selectedComponent}>
+      <button onClick={deleteSelectedComponent} disabled={!selectedComponent}>
         Delete Selected Component
       </button>
 
       <TransformWrapper
         options={{ limitToBounds: false }}
-        wheel={{ step: 0.1 }} // Adjust the zoom speed here
-        onZoomChange={(e) => setScale(e.scale)} // Track scale changes
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
+        wheel={{ step: 0.1 }}
+        onZoomChange={(e) => setScale(e.scale)}
       >
         <TransformComponent>
           <div
             className="workspace-container2"
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
-            style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}
+            style={{ width: '100vw', height: '100vh'}}
           >
-            {components.map(component => (
+            {components.map((component) => (
               <div
                 key={component.id}
                 className={`component placed-component ${selectedComponent?.id === component.id ? 'selected' : ''}`}
                 data-id={component.id}
                 style={{
-                  position: 'absolute',
-                  left: `${component.x * scale}px`, // Adjust for zoom
-                  top: `${component.y * scale}px`, // Adjust for zoom
-                  width: '50px',
-                  height: '50px',
-                  backgroundColor: 'lightblue',
-                  border: selectedComponent?.id === component.id ? '2px solid white' : '1px solid gray',
-                  cursor: 'grab',
+                  left: `${component.x * scale}px`,
+                  top: `${component.y * scale}px`,
                 }}
-              />
+                onClick={() => setSelectedComponent(component)}
+              >
+                <component.type />
+              </div>
             ))}
           </div>
         </TransformComponent>

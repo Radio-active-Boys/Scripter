@@ -1,10 +1,10 @@
 .workspace2 {
   background-color: #f9f9f9;
   height: 95vh;
-  width: 73vw;
+  width: 71vw;
   position: relative;
   right: 0;
-  left: 17%;
+  left: 19%;
   border: 1px solid #ccc;
   overflow: hidden;
   cursor: grab;
@@ -22,31 +22,20 @@ h2 {
   overflow: hidden; /* Prevents overflow when zooming */
   background-color: coral;
   position: relative; /* Allow absolutely positioned components to be positioned within this container */
+  cursor: auto;
 }
 
 .component {
   position: absolute;
-  width: 50px;
-  height: 50px;
-  background-color: lightblue;
-  border: 1px solid gray;
   transition: border 0.2s; /* Smooth border transition */
 }
 
 .component.selected {
-  border: 2px solid white; /* Highlight selected component */
   z-index: 1; /* Bring selected component to the front */
+  background-color: #1a17173e;
 }
 
-.component:hover {
-  cursor: grab; /* Change cursor on hover */
-}
 .placed-component {
   position: absolute;
-  width: 50px;
-  height: 50px;
-}
-
-.placed-component.selected {
-  border-color: red;
+  cursor: grab;
 }

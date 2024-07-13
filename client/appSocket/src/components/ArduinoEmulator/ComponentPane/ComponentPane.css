@@ -1,7 +1,7 @@
 .component-pane {
     background-color: #fafafa;
     height: 95vh;
-    width: 25vw;
+    width: 28vw;
     overflow-y: auto; /* Allow vertical scrolling for components */
     position: fixed; /* Fixes the pane to the left */
     left: 0; /* Aligns it to the left */
