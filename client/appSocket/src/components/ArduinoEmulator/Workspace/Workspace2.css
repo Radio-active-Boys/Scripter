@@ -27,7 +27,6 @@ h2 {
 
 .placed-component {
   position: absolute;
-  cursor: grab;
   transition: border 0.2s; /* Smooth border transition */
 }
 

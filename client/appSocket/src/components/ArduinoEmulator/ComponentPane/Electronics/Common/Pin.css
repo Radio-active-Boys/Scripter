@@ -1,0 +1,17 @@
+.component-pin {
+    fill: transparent;
+  }
+  
+  .component-pin.hovered {
+    fill: rgb(255, 13, 0);
+    border-radius: 3px;
+    border-color: black;
+  }
+  
+  .pin-info {
+    font-size: 13px;
+    text-anchor: middle;
+    fill: rgb(81, 6, 6);
+    pointer-events: none;
+  }
+  

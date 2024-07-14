@@ -17,9 +17,8 @@ const Workspace2 = () => {
       const offset = monitor.getClientOffset();
       const containerRect = dropRef.current.getBoundingClientRect();
 
-      // Calculate new position directly under the cursor
-      const newX = (offset.x - containerRect.left- 140) / scale;
-      const newY = (offset.y - containerRect.top- 140) / scale;
+      const newX = (offset.x - containerRect.left - 140) / scale;
+      const newY = (offset.y - containerRect.top - 140) / scale;
 
       const newComponent = {
         ...item,
@@ -49,7 +48,7 @@ const Workspace2 = () => {
   const handleMouseDown = (event) => {
     if (event.button === 0) {
       const target = event.target.closest('.placed-component');
-
+  
       if (target) {
         const id = target.dataset.id;
         const comp = components.find((comp) => comp.id === id);
@@ -62,10 +61,13 @@ const Workspace2 = () => {
         });
         event.stopPropagation();
       } else {
+        // Deselect the component when clicking on empty space
         setSelectedComponent(null);
       }
     }
   };
+  
+  
 
   const handleMouseMove = (event) => {
     if (isDragging && selectedComponent) {
@@ -103,16 +105,17 @@ const Workspace2 = () => {
       <button onClick={deleteSelectedComponent} disabled={!selectedComponent}>
         Delete Selected Component
       </button>
-
+  
       <TransformWrapper>
         <TransformComponent>
           <div
             ref={(node) => {
-              dropRef.current = node; // Set the ref
-              drop(node); // Call drop to bind the drop target
+              dropRef.current = node;
+              drop(node);
             }}
             className="workspace-container2"
             style={{ width: '100vw', height: '100vh', position: 'relative' }}
+            onMouseDown={handleMouseDown} // Click handler for deselection
           >
             {components.map((component) => (
               <div
@@ -124,7 +127,6 @@ const Workspace2 = () => {
                   left: `${component.x}px`,
                   top: `${component.y}px`,
                 }}
-                onMouseDown={handleMouseDown}
                 onClick={() => setSelectedComponent(component)}
               >
                 {component.component}
@@ -135,6 +137,7 @@ const Workspace2 = () => {
       </TransformWrapper>
     </div>
   );
+  
 };
 
 export default Workspace2;

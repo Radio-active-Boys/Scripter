@@ -1,29 +1,12 @@
-.arduino-uno-container {
+.component-container {
   position: relative;
 }
 
-.arduino-svg {
+.component-svg {
   display: block;
 }
 
-.arduino-image {
+.component-image {
   width: 100%;
   height: auto;
-}
-
-
-
-.arduino-pin {
-  fill: transparent;
-  
-}
-
-.arduino-pin.hovered {
-  fill: rgb(255, 13, 0); 
-  stroke: black;
-}
-
-.pin-info {
-  position: absolute; 
-
 }
