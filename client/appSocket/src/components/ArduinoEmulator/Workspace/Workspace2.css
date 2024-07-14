@@ -25,17 +25,14 @@ h2 {
   cursor: auto;
 }
 
-.component {
-  position: absolute;
-  transition: border 0.2s; /* Smooth border transition */
-}
-
-.component.selected {
-  z-index: 1; /* Bring selected component to the front */
-  background-color: #1a17173e;
-}
-
 .placed-component {
   position: absolute;
   cursor: grab;
+  transition: border 0.2s; /* Smooth border transition */
+}
+
+.placed-component.selected {
+  z-index: 1; /* Bring selected component to the front */
+  background-color: #1a17173e;
+  
 }

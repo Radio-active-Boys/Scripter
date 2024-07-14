@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDrop } from 'react-dnd';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import './Workspace2.css';
 
@@ -8,32 +7,8 @@ const Workspace2 = () => {
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const dropRef = useRef(null);
-  const scale = 1; // Update this based on zoom level if needed
-
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: 'component',
-    drop: (item, monitor) => {
-      const offset = monitor.getClientOffset();
-      const containerRect = dropRef.current.getBoundingClientRect();
-
-      // Calculate new position directly under the cursor
-      const newX = (offset.x - containerRect.left- 140) / scale;
-      const newY = (offset.y - containerRect.top- 140) / scale;
-
-      const newComponent = {
-        ...item,
-        id: `comp_${components.length}_${Date.now()}`,
-        x: newX,
-        y: newY,
-      };
-
-      setComponents((prev) => [...prev, newComponent]);
-    },
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  }));
+  const [scale, setScale] = useState(1);
+  const SelectedComponentRef = useRef(null);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -45,6 +20,26 @@ const Workspace2 = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedComponent]);
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    const component = JSON.parse(event.dataTransfer.getData('component'));
+    const containerRect = event.currentTarget.getBoundingClientRect();
+
+    // Calculate the new component position based on the cursor's position in the container
+    const newComponent = {
+      ...component,
+      id: `comp_${components.length}_${Date.now()}`,
+      x: (event.clientX - containerRect.left - 65) / scale,
+      y: (event.clientY - containerRect.top - 65) / scale,
+    };
+
+    setComponents((prev) => [...prev, newComponent]);
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
 
   const handleMouseDown = (event) => {
     if (event.button === 0) {
@@ -69,7 +64,7 @@ const Workspace2 = () => {
 
   const handleMouseMove = (event) => {
     if (isDragging && selectedComponent) {
-      const containerRect = dropRef.current.getBoundingClientRect();
+      const containerRect = event.currentTarget.getBoundingClientRect();
       const newX = (event.clientX - containerRect.left - dragOffset.x) / scale;
       const newY = (event.clientY - containerRect.top - dragOffset.y) / scale;
 
@@ -98,36 +93,39 @@ const Workspace2 = () => {
   };
 
   return (
-    <div className="workspace2" onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
+    <div className="workspace2">
       <h2>Workspace</h2>
       <button onClick={deleteSelectedComponent} disabled={!selectedComponent}>
         Delete Selected Component
       </button>
 
-      <TransformWrapper>
+      <TransformWrapper
+        options={{ limitToBounds: false }}
+        wheel={{ step: 0.1 }}
+        onZoomChange={(e) => setScale(e.scale)}
+      >
         <TransformComponent>
           <div
-            ref={(node) => {
-              dropRef.current = node; // Set the ref
-              drop(node); // Call drop to bind the drop target
-            }}
             className="workspace-container2"
-            style={{ width: '100vw', height: '100vh', position: 'relative' }}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            style={{ width: '100vw', height: '100vh'}}
           >
             {components.map((component) => (
               <div
                 key={component.id}
-                className={`placed-component ${selectedComponent?.id === component.id ? 'selected' : ''}`}
+                className={`component placed-component ${selectedComponent?.id === component.id ? 'selected' : ''}`}
                 data-id={component.id}
                 style={{
-                  position: 'absolute',
-                  left: `${component.x}px`,
-                  top: `${component.y}px`,
+                  left: `${component.x * scale}px`,
+                  top: `${component.y * scale}px`,
                 }}
-                onMouseDown={handleMouseDown}
                 onClick={() => setSelectedComponent(component)}
               >
-                {component.component}
+                <component.type />
               </div>
             ))}
           </div>
