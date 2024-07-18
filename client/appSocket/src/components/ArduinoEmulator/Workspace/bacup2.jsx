@@ -1,9 +1,6 @@
-// Workspace.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { useDrop } from 'react-dnd';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
-import { WireProvider } from '../ComponentPane/Electronics/Common/WireContext';
-import Wire from '../ComponentPane/Electronics/Common/Wire';
 import './Workspace2.css';
 
 const Workspace2 = () => {
@@ -13,7 +10,6 @@ const Workspace2 = () => {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const dropRef = useRef(null);
   const scale = 1;
-
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'component',
     drop: (item, monitor) => {
@@ -51,7 +47,7 @@ const Workspace2 = () => {
   const handleMouseDown = (event) => {
     if (event.button === 0) {
       const target = event.target.closest('.placed-component');
-
+  
       if (target) {
         const id = target.dataset.id;
         const comp = components.find((comp) => comp.id === id);
@@ -68,6 +64,8 @@ const Workspace2 = () => {
       }
     }
   };
+  
+  
 
   const handleMouseMove = (event) => {
     if (isDragging && selectedComponent) {
@@ -100,46 +98,44 @@ const Workspace2 = () => {
   };
 
   return (
-    <WireProvider>
-      <div className="workspace2" onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
-        <h2>Workspace</h2>
-        <button onClick={deleteSelectedComponent} disabled={!selectedComponent}>
-          Delete Selected Component
-        </button>
-
-        <TransformWrapper>
-          <TransformComponent>
-            <div
-              ref={(node) => {
-                dropRef.current = node;
-                drop(node);
-              }}
-              className="workspace-container2"
-              style={{ width: '100vw', height: '100vh', position: 'relative' }}
-              onMouseDown={handleMouseDown}
-            >
-              {components.map((component) => (
-                <div
-                  key={component.id}
-                  className={`placed-component ${selectedComponent?.id === component.id ? 'selected' : ''}`}
-                  data-id={component.id}
-                  style={{
-                    position: 'absolute',
-                    left: `${component.x}px`,
-                    top: `${component.y}px`,
-                  }}
-                  onClick={() => setSelectedComponent(component)}
-                >
-                  {component.component}
-                </div>
-              ))}
-              <Wire />
-            </div>
-          </TransformComponent>
-        </TransformWrapper>
-      </div>
-    </WireProvider>
+    <div className="workspace2" onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
+      <h2>Workspace</h2>
+      <button onClick={deleteSelectedComponent} disabled={!selectedComponent}>
+        Delete Selected Component
+      </button>
+  
+      <TransformWrapper>
+        <TransformComponent>
+          <div
+            ref={(node) => {
+              dropRef.current = node;
+              drop(node);
+            }}
+            className="workspace-container2"
+            style={{ width: '100vw', height: '100vh', position: 'relative' }}
+            onMouseDown={handleMouseDown}
+          >
+            {components.map((component) => (
+              <div
+                key={component.id}
+                className={`placed-component ${selectedComponent?.id === component.id ? 'selected' : ''}`}
+                data-id={component.id}
+                style={{
+                  position: 'absolute',
+                  left: `${component.x}px`,
+                  top: `${component.y}px`,
+                }}
+                onClick={() => setSelectedComponent(component)}
+              >
+                {component.component}
+              </div>
+            ))}
+          </div>
+        </TransformComponent>
+      </TransformWrapper>
+    </div>
   );
+  
 };
 
 export default Workspace2;

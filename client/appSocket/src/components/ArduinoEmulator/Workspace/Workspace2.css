@@ -15,23 +15,25 @@ h2 {
 }
 
 .workspace-container2 {
-  flex: 1; /* Take up all available space */
+  flex: 1; 
   display: flex;
-  justify-content: center; /* Center the canvas horizontally */
-  align-items: center; /* Center the canvas vertically */
-  overflow: hidden; /* Prevents overflow when zooming */
+  justify-content: center; 
+  align-items: center; 
+  overflow: hidden; 
   background-color: coral;
-  position: relative; /* Allow absolutely positioned components to be positioned within this container */
+  position: relative; 
   cursor: auto;
 }
 
 .placed-component {
   position: absolute;
-  transition: border 0.2s; /* Smooth border transition */
+  transition: border 0.2s;
+  background: none;
+  background-color: transparent; /* Make background transparent */
 }
 
 .placed-component.selected {
-  z-index: 1; /* Bring selected component to the front */
-  background-color: #1a17173e;
-  
+  z-index: 1;
+  background-color: rgba(26, 23, 23, 0.24); /* Keep background for selected */
+  border: none;
 }

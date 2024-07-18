@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDrag } from 'react-dnd';
-import ArduinoUno from './Electronics/ArduinoUno/ArduinoUno';
+import ArduinoUno from './Electronics/ArduinoUno/ArduinoUno';4
+import Battery9V from './Electronics/ArduinoUno/Battery9V';
 import '@wokwi/elements';
 import './ComponentPane.css';
 
@@ -10,6 +11,7 @@ const ComponentPane = () => {
   useEffect(() => {
     const availableComponents = [
       { name: 'Arduino UNO', component: <ArduinoUno /> },
+      { name: 'Battery9V', component: <Battery9V /> },
     ];
     setComponents(availableComponents);
   }, []);

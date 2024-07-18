@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import ArduinoData from '../../../../../assets/Arduino/jsons/Arduino.json';
-import ArduinoUnoSVG from '../../../../../assets/Arduino/images/components/ArduinoUno.svg';
+import Battery9VData from '../../../../../assets/Arduino/jsons/Battery9v.json';
+import Battery9VSVG from '../../../../../assets/Arduino/images/components/9vBattery.svg';
 import Pin from '../Common/Pin';
 import Wire from '../Common/Wire';
 import { WireProvider } from '../Common/WireContext';
-import './ArduinoUno.css';
+import './Battery9V.css';
 
-const ArduinoUno = () => {
-  const { draw, pins } = ArduinoData;
+const Battery9V = () => {
+  const { draw, pins } = Battery9VData;
   const [hoveredPin, setHoveredPin] = useState(null);
-  const scaleFactor = 350 / 456;
+  const scaleFactor = 1;
 
   const handleMouseEnter = (pin) => setHoveredPin(pin);
   const handleMouseLeave = () => setHoveredPin(null);
@@ -17,14 +17,14 @@ const ArduinoUno = () => {
   return (
     <WireProvider>
       <div className="component-container">
-        <svg width="350" height="260" className="component-svg" style={{ background: 'transparent' }}>
+        <svg width="179" height="99" className="component-svg expanded-left" style={{ background: 'transparent' }}>
           <defs>
-            <clipPath id="arduinoClip">
-              <path d="M0,0 L350,0 L350,260 L0,260 Z" />
+            <clipPath id="batteryClip">
+              <path d="M0,0 L179,0 L179,99 L0,99 Z" />
             </clipPath>
           </defs>
-          <g clipPath="url(#arduinoClip)">
-            <image href={ArduinoUnoSVG} width="350" height="260" className="component-image" />
+          <g clipPath="url(#batteryClip)">
+            <image href={Battery9VSVG} width="179" height="99" className="component-image" />
             {draw.map((element, index) => (
               element.type === 'rectangle' && (
                 <rect
@@ -37,10 +37,6 @@ const ArduinoUno = () => {
                 />
               )
             ))}
-            <path
-               
-              fill="none"
-            />
             {pins.map((pin, index) => (
               <Pin
                 key={index}
@@ -49,6 +45,8 @@ const ArduinoUno = () => {
                 hoveredPin={hoveredPin}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
+                x={pin.x }  
+                y={pin.y }  
               />
             ))}
             <Wire />
@@ -59,4 +57,4 @@ const ArduinoUno = () => {
   );
 };
 
-export default ArduinoUno;
+export default Battery9V;

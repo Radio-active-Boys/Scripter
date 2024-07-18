@@ -1,7 +1,7 @@
 .pin-tooltip {
     position: absolute;
     pointer-events: none;
-    z-index: 100;
+    z-index: 300;
     transition: opacity 0.2s ease;
     opacity: 1;
   }

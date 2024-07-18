@@ -1,0 +1,13 @@
+.component-container {
+    position: relative;
+  }
+  
+  .component-svg {
+    display: block;
+  }
+  
+  .component-image {
+    width: 100%;
+    height: auto;
+  }
+  

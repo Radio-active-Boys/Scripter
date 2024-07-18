@@ -4,14 +4,14 @@
     "pointHalf": 4,
     "pins": [
         {
-            "x": -4,
+            "x": 0,
             "y": 27,
-            "name": "Positive"
+            "name": "+"
         },
         {
-            "x": -4,
+            "x": 0,
             "y": 69,
-            "name": "Negative"
+            "name": "-"
         }
     ],
     "draw": [
